@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Juego del Ahorcado</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Juego del Ahorcado</h1>
+    <div class="game-container">
+        <p>Palabra: {{ word_display }}</p>
+        <p>Errores: {{ wrong_guesses }} / 6</p>
+        <p>Letras adivinadas: {{ guessed_letters | join(', ') }}</p>
+
+        {% if game_over %}
+            <h2>¡Has perdido! La palabra era "{{ session['word'] }}"</h2>
+            <a href="{{ url_for('reset') }}">Reiniciar Juego</a>
+        {% elif win %}
+            <h2>¡Felicidades! ¡Has ganado!</h2>
+            <a href="{{ url_for('reset') }}">Jugar de nuevo</a>
+        {% else %}
+            <form method="POST">
+                <label for="letter">Adivina una letra:</label>
+                <input type="text" id="letter" name="letter" maxlength="1" required>
+                <button type="submit">Adivinar</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
